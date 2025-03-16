@@ -1,123 +1,121 @@
--- إعداد واجهة المستخدم
+-- إعداد الـ GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- إعداد الـ Frame الرئيسي
 local frame = Instance.new("Frame")
 frame.Parent = screenGui
-frame.Size = UDim2.new(0, 300, 0, 250) -- تكبير الإطار قليلاً
-frame.Position = UDim2.new(0.5, -150, 1, 0) -- يبدأ خارج الشاشة (أسفل)
+frame.Size = UDim2.new(0, 300, 0, 450)
+frame.Position = UDim2.new(0.5, -150, 0.4, 0)
 frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 frame.BorderSizePixel = 2
-frame.Draggable = true -- جعل الواجهة قابلة للسحب
-frame.Selectable = true
+frame.Draggable = true
 frame.Active = true
 
--- تحريك الواجهة عند فتحها (Animation)
-game:GetService("TweenService"):Create(
-    frame,
-    TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-    {Position = UDim2.new(0.5, -150, 0.4, 0)}
-):Play()
+-- إعداد الأزرار بشكل مرتب
 
--- زر "Teleport 1" إلى الإحداثيات -37, 101, 37
+-- زر النقل بسرعة الضوء
+local teleportButton = Instance.new("TextButton")
+teleportButton.Parent = frame
+teleportButton.Size = UDim2.new(0.8, 0, 0, 50)
+teleportButton.Position = UDim2.new(0.1, 0, 0.1, 0)
+teleportButton.Text = "Ultra Light Speed: OFF"
+teleportButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+teleportButton.TextSize = 20
+
+-- إحداثيات التيلبورت
+local teleportPositions = {
+    Vector3.new(-37, 101, 37), -- Teleport 1
+    Vector3.new(-34, 101, 26), -- Teleport 2
+    Vector3.new(-34, 101, 12)  -- Teleport 3
+}
+
+-- أزرار التيلبورت
 local teleportButton1 = Instance.new("TextButton")
 teleportButton1.Parent = frame
-teleportButton1.Size = UDim2.new(0.8, 0, 0, 40)
-teleportButton1.Position = UDim2.new(0.1, 0, 0.1, 0)
+teleportButton1.Size = UDim2.new(0.8, 0, 0, 50)
+teleportButton1.Position = UDim2.new(0.1, 0, 0.2, 0)
 teleportButton1.Text = "Teleport 1"
-teleportButton1.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+teleportButton1.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 teleportButton1.TextSize = 20
 
--- زر "Teleport 2" إلى الإحداثيات -34, 101, 26
 local teleportButton2 = Instance.new("TextButton")
 teleportButton2.Parent = frame
-teleportButton2.Size = UDim2.new(0.8, 0, 0, 40)
+teleportButton2.Size = UDim2.new(0.8, 0, 0, 50)
 teleportButton2.Position = UDim2.new(0.1, 0, 0.3, 0)
 teleportButton2.Text = "Teleport 2"
-teleportButton2.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+teleportButton2.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 teleportButton2.TextSize = 20
 
--- زر "Teleport 3" إلى الإحداثيات -34, 101, 12
 local teleportButton3 = Instance.new("TextButton")
 teleportButton3.Parent = frame
-teleportButton3.Size = UDim2.new(0.8, 0, 0, 40)
-teleportButton3.Position = UDim2.new(0.1, 0, 0.5, 0)
+teleportButton3.Size = UDim2.new(0.8, 0, 0, 50)
+teleportButton3.Position = UDim2.new(0.1, 0, 0.4, 0)
 teleportButton3.Text = "Teleport 3"
-teleportButton3.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+teleportButton3.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 teleportButton3.TextSize = 20
 
--- نص "By Drakthon"
-local textLabel = Instance.new("TextLabel")
-textLabel.Parent = frame
-textLabel.Size = UDim2.new(0.8, 0, 0, 30)
-textLabel.Position = UDim2.new(0.1, 0, 0.8, 0)
-textLabel.Text = "By Drakthon"
-textLabel.BackgroundTransparency = 1
-textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-textLabel.TextSize = 18
-
--- إضافة نص TikTok في الزاوية اليسرى السفلية بخط شفاف
+-- النص لتيك توك وديسكورد
 local tiktokLabel = Instance.new("TextLabel")
-tiktokLabel.Parent = frame
-tiktokLabel.Size = UDim2.new(0.4, 0, 0, 20)
-tiktokLabel.Position = UDim2.new(0.05, 0, 0.92, 0)
-tiktokLabel.Text = "tiktok@norkrsc"
+tiktokLabel.Parent = screenGui
+tiktokLabel.Size = UDim2.new(0.3, 0, 0, 30)
+tiktokLabel.Position = UDim2.new(0.02, 0, 0.02, 0)
+tiktokLabel.Text = "TikTok: @norkrsc"
 tiktokLabel.BackgroundTransparency = 1
-tiktokLabel.TextColor3 = Color3.fromRGB(200, 200, 200) -- شفاف قليلاً
+tiktokLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 tiktokLabel.TextSize = 14
 
--- إضافة رابط Discord في الزاوية اليمنى السفلية بخط شفاف
-local discordLinkLabel = Instance.new("TextLabel")
-discordLinkLabel.Parent = frame
-discordLinkLabel.Size = UDim2.new(0.8, 0, 0, 20)
-discordLinkLabel.Position = UDim2.new(0.55, 0, 0.92, 0)
-discordLinkLabel.Text = "https://discord.gg/W3VwkUj6kf"
-discordLinkLabel.BackgroundTransparency = 1
-discordLinkLabel.TextColor3 = Color3.fromRGB(200, 200, 200) -- شفاف قليلاً
-discordLinkLabel.TextSize = 14
+local discordLabel = Instance.new("TextLabel")
+discordLabel.Parent = screenGui
+discordLabel.Size = UDim2.new(0.5, 0, 0, 30)
+discordLabel.Position = UDim2.new(0.35, 0, 0.02, 0)
+discordLabel.Text = "Discord: discord.gg/W3VwkUj6kf"
+discordLabel.BackgroundTransparency = 1
+discordLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+discordLabel.TextSize = 14
 
--- إحداثيات النقل
-local teleportPosition1 = Vector3.new(-37, 101, 37)
-local teleportPosition2 = Vector3.new(-34, 101, 26)
-local teleportPosition3 = Vector3.new(-34, 101, 12)
+-- تشغيل / إيقاف النقل بسرعة الضوء
+local isTeleporting = false
+teleportButton.MouseButton1Click:Connect(function()
+    isTeleporting = not isTeleporting
+    teleportButton.Text = isTeleporting and "Ultra Light Speed: ON" or "Ultra Light Speed: OFF"
+    
+    if isTeleporting then
+        spawn(function()
+            local player = game.Players.LocalPlayer
+            local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
 
--- وظيفة النقل الفوري بسرعة غير طبيعية
+            while isTeleporting do
+                -- التنقل بين الإحداثيات بسرعة الضوء
+                for _, position in ipairs(teleportPositions) do
+                    hrp.CFrame = CFrame.new(position)
+                    wait(0.05) -- تأخير صغير بين التنقلات
+                end
+            end
+        end)
+    end
+end)
+
+-- ربط الأزرار بمواقع التيلبورت
 local function teleportToPosition(position)
     local player = game.Players.LocalPlayer
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        local hrp = player.Character.HumanoidRootPart
-        local originalPosition = hrp.CFrame -- حفظ الموقع الأصلي
-        
-        -- النقل بسرعة غير طبيعية عبر حلقة لتغيير الـ CFrame بشكل متسلسل
-        for _ = 1, 50 do -- تكرار النقل 50 مرة لجعل السرعة عالية
-            hrp.CFrame = CFrame.new(position)
-        end
-        
-        -- العودة إلى نفس المكان بعد تأخير بسيط
-        task.wait(0.05) -- تقليل وقت الانتظار لجعل النقل فوري
-        hrp.CFrame = originalPosition -- العودة إلى نفس الموقع الأصلي
-    else
-        warn("لا يوجد HumanoidRootPart في الشخصية!")
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        local originalPosition = hrp.CFrame
+        hrp.CFrame = CFrame.new(position) -- Teleport to target position
+        wait(0.1) -- تأخير صغير
+        hrp.CFrame = originalPosition -- العودة للمكان الأصلي
     end
 end
 
--- ربط الزر الأول بوظيفة النقل إلى الإحداثيات الأولى
 teleportButton1.MouseButton1Click:Connect(function()
-    teleportToPosition(teleportPosition1)
+    teleportToPosition(teleportPositions[1])
 end)
 
--- ربط الزر الثاني بوظيفة النقل إلى الإحداثيات الثانية
 teleportButton2.MouseButton1Click:Connect(function()
-    teleportToPosition(teleportPosition2)
+    teleportToPosition(teleportPositions[2])
 end)
 
--- ربط الزر الثالث بوظيفة النقل إلى الإحداثيات الثالثة
 teleportButton3.MouseButton1Click:Connect(function()
-    teleportToPosition(teleportPosition3)
-end)
-
--- ربط زر "Join Our Discord"
-discordButton.MouseButton1Click:Connect(function()
-    print("Join our Discord: https://discord.gg/W3VwkUj6kf")
+    teleportToPosition(teleportPositions[3])
 end)
