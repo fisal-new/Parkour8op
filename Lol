@@ -1,0 +1,100 @@
+-- إعداد واجهة المستخدم
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- إعداد الـ Frame الرئيسي
+local frame = Instance.new("Frame")
+frame.Parent = screenGui
+frame.Size = UDim2.new(0, 300, 0, 180) -- تكبير الإطار قليلاً
+frame.Position = UDim2.new(0.5, -150, 1, 0) -- يبدأ خارج الشاشة (أسفل)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+frame.BorderSizePixel = 2
+frame.Draggable = true -- جعل الواجهة قابلة للسحب
+frame.Selectable = true
+frame.Active = true
+
+-- تحريك الواجهة عند فتحها (Animation)
+game:GetService("TweenService"):Create(
+    frame,
+    TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+    {Position = UDim2.new(0.5, -150, 0.4, 0)}
+):Play()
+
+-- زر "Teleport"
+local teleportButton = Instance.new("TextButton")
+teleportButton.Parent = frame
+teleportButton.Size = UDim2.new(0.8, 0, 0, 40)
+teleportButton.Position = UDim2.new(0.1, 0, 0.2, 0)
+teleportButton.Text = "Teleport!"
+teleportButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+teleportButton.TextSize = 20
+
+-- زر "Join Our Discord"
+local discordButton = Instance.new("TextButton")
+discordButton.Parent = frame
+discordButton.Size = UDim2.new(0.8, 0, 0, 40)
+discordButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+discordButton.Text = "Join Our Discord"
+discordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+discordButton.TextSize = 18
+
+-- نص "By Drakthon"
+local textLabel = Instance.new("TextLabel")
+textLabel.Parent = frame
+textLabel.Size = UDim2.new(0.8, 0, 0, 30)
+textLabel.Position = UDim2.new(0.1, 0, 0.8, 0)
+textLabel.Text = "By Drakthon"
+textLabel.BackgroundTransparency = 1
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.TextSize = 18
+
+-- إضافة نص TikTok في الزاوية اليسرى السفلية بخط شفاف
+local tiktokLabel = Instance.new("TextLabel")
+tiktokLabel.Parent = frame
+tiktokLabel.Size = UDim2.new(0.4, 0, 0, 20)
+tiktokLabel.Position = UDim2.new(0.05, 0, 0.92, 0)
+tiktokLabel.Text = "tiktok@norkrsc"
+tiktokLabel.BackgroundTransparency = 1
+tiktokLabel.TextColor3 = Color3.fromRGB(200, 200, 200) -- شفاف قليلاً
+tiktokLabel.TextSize = 14
+
+-- إضافة رابط Discord في الزاوية اليمنى السفلية بخط شفاف
+local discordLinkLabel = Instance.new("TextLabel")
+discordLinkLabel.Parent = frame
+discordLinkLabel.Size = UDim2.new(0.8, 0, 0, 20)
+discordLinkLabel.Position = UDim2.new(0.55, 0, 0.92, 0)
+discordLinkLabel.Text = "https://discord.gg/W3VwkUj6kf"
+discordLinkLabel.BackgroundTransparency = 1
+discordLinkLabel.TextColor3 = Color3.fromRGB(200, 200, 200) -- شفاف قليلاً
+discordLinkLabel.TextSize = 14
+
+-- إحداثيات النقل
+local teleportPosition = Vector3.new(-35, 101, 11)
+
+-- وظيفة النقل الفوري بسرعة مضاعفة
+local function teleportPlayer()
+    local player = game.Players.LocalPlayer
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local hrp = player.Character.HumanoidRootPart
+        local originalPosition = hrp.CFrame -- حفظ الموقع الأصلي
+        
+        -- النقل بسرعة خرافية عبر استخدام loop
+        for _ = 1, 10 do -- مضاعفة النقل 10 مرات
+            hrp.CFrame = CFrame.new(teleportPosition)
+        end
+        
+        -- العودة إلى نفس المكان بعد تأخير بسيط
+        task.wait(0.05) -- تقليل وقت الانتظار لجعل النقل فوري أكثر
+        hrp.CFrame = originalPosition -- العودة إلى نفس الموقع الأصلي
+    else
+        warn("لا يوجد HumanoidRootPart في الشخصية!")
+    end
+end
+
+-- ربط زر "Teleport" بوظيفة النقل
+teleportButton.MouseButton1Click:Connect(teleportPlayer)
+
+-- ربط زر "Join Our Discord"
+discordButton.MouseButton1Click:Connect(function()
+    print("Join our Discord: https://discord.gg/W3VwkUj6kf")
+end)
