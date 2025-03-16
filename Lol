@@ -5,7 +5,7 @@ screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 -- إعداد الـ Frame الرئيسي
 local frame = Instance.new("Frame")
 frame.Parent = screenGui
-frame.Size = UDim2.new(0, 300, 0, 180) -- تكبير الإطار قليلاً
+frame.Size = UDim2.new(0, 300, 0, 250) -- تكبير الإطار قليلاً
 frame.Position = UDim2.new(0.5, -150, 1, 0) -- يبدأ خارج الشاشة (أسفل)
 frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 frame.BorderSizePixel = 2
@@ -20,23 +20,32 @@ game:GetService("TweenService"):Create(
     {Position = UDim2.new(0.5, -150, 0.4, 0)}
 ):Play()
 
--- زر "Teleport"
-local teleportButton = Instance.new("TextButton")
-teleportButton.Parent = frame
-teleportButton.Size = UDim2.new(0.8, 0, 0, 40)
-teleportButton.Position = UDim2.new(0.1, 0, 0.2, 0)
-teleportButton.Text = "Teleport!"
-teleportButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
-teleportButton.TextSize = 20
+-- زر "Teleport 1" إلى الإحداثيات -37, 101, 37
+local teleportButton1 = Instance.new("TextButton")
+teleportButton1.Parent = frame
+teleportButton1.Size = UDim2.new(0.8, 0, 0, 40)
+teleportButton1.Position = UDim2.new(0.1, 0, 0.1, 0)
+teleportButton1.Text = "Teleport 1"
+teleportButton1.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+teleportButton1.TextSize = 20
 
--- زر "Join Our Discord"
-local discordButton = Instance.new("TextButton")
-discordButton.Parent = frame
-discordButton.Size = UDim2.new(0.8, 0, 0, 40)
-discordButton.Position = UDim2.new(0.1, 0, 0.5, 0)
-discordButton.Text = "Join Our Discord"
-discordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-discordButton.TextSize = 18
+-- زر "Teleport 2" إلى الإحداثيات -34, 101, 26
+local teleportButton2 = Instance.new("TextButton")
+teleportButton2.Parent = frame
+teleportButton2.Size = UDim2.new(0.8, 0, 0, 40)
+teleportButton2.Position = UDim2.new(0.1, 0, 0.3, 0)
+teleportButton2.Text = "Teleport 2"
+teleportButton2.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+teleportButton2.TextSize = 20
+
+-- زر "Teleport 3" إلى الإحداثيات -34, 101, 12
+local teleportButton3 = Instance.new("TextButton")
+teleportButton3.Parent = frame
+teleportButton3.Size = UDim2.new(0.8, 0, 0, 40)
+teleportButton3.Position = UDim2.new(0.1, 0, 0.5, 0)
+teleportButton3.Text = "Teleport 3"
+teleportButton3.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+teleportButton3.TextSize = 20
 
 -- نص "By Drakthon"
 local textLabel = Instance.new("TextLabel")
@@ -69,30 +78,44 @@ discordLinkLabel.TextColor3 = Color3.fromRGB(200, 200, 200) -- شفاف قليل
 discordLinkLabel.TextSize = 14
 
 -- إحداثيات النقل
-local teleportPosition = Vector3.new(-35, 101, 11)
+local teleportPosition1 = Vector3.new(-37, 101, 37)
+local teleportPosition2 = Vector3.new(-34, 101, 26)
+local teleportPosition3 = Vector3.new(-34, 101, 12)
 
--- وظيفة النقل الفوري بسرعة مضاعفة
-local function teleportPlayer()
+-- وظيفة النقل الفوري بسرعة غير طبيعية
+local function teleportToPosition(position)
     local player = game.Players.LocalPlayer
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         local hrp = player.Character.HumanoidRootPart
         local originalPosition = hrp.CFrame -- حفظ الموقع الأصلي
         
-        -- النقل بسرعة خرافية عبر استخدام loop
-        for _ = 1, 10 do -- مضاعفة النقل 10 مرات
-            hrp.CFrame = CFrame.new(teleportPosition)
+        -- النقل بسرعة غير طبيعية عبر حلقة لتغيير الـ CFrame بشكل متسلسل
+        for _ = 1, 50 do -- تكرار النقل 50 مرة لجعل السرعة عالية
+            hrp.CFrame = CFrame.new(position)
         end
         
         -- العودة إلى نفس المكان بعد تأخير بسيط
-        task.wait(0.05) -- تقليل وقت الانتظار لجعل النقل فوري أكثر
+        task.wait(0.05) -- تقليل وقت الانتظار لجعل النقل فوري
         hrp.CFrame = originalPosition -- العودة إلى نفس الموقع الأصلي
     else
         warn("لا يوجد HumanoidRootPart في الشخصية!")
     end
 end
 
--- ربط زر "Teleport" بوظيفة النقل
-teleportButton.MouseButton1Click:Connect(teleportPlayer)
+-- ربط الزر الأول بوظيفة النقل إلى الإحداثيات الأولى
+teleportButton1.MouseButton1Click:Connect(function()
+    teleportToPosition(teleportPosition1)
+end)
+
+-- ربط الزر الثاني بوظيفة النقل إلى الإحداثيات الثانية
+teleportButton2.MouseButton1Click:Connect(function()
+    teleportToPosition(teleportPosition2)
+end)
+
+-- ربط الزر الثالث بوظيفة النقل إلى الإحداثيات الثالثة
+teleportButton3.MouseButton1Click:Connect(function()
+    teleportToPosition(teleportPosition3)
+end)
 
 -- ربط زر "Join Our Discord"
 discordButton.MouseButton1Click:Connect(function()
